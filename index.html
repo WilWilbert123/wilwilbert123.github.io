@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo Stamp 3D Journal</title>
+    <style>
+        :root {
+            --wood: #3d2b1f;
+            --paper: #f4f1ea;
+            --accent: #d4af37;
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(circle, #2c3e50, #000);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            perspective: 1200px; /* Essential for 3D */
+        }
+
+        /* The Desk Surface */
+        .desk {
+            position: relative;
+            width: 900px;
+            height: 600px;
+            background: var(--wood);
+            transform: rotateX(25deg) rotateZ(-5deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            border-radius: 10px;
+            border: 15px solid #2a1d15;
+        }
+
+        /* Common 3D properties for objects */
+        .object {
+            position: absolute;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .object:hover {
+            transform: translateZ(20px);
+        }
+
+        /* The Journal (Echo Stamp) */
+        .journal {
+            top: 50px;
+            left: 50px;
+            width: 250px;
+            height: 350px;
+            background: #4a0e0e;
+            border-left: 10px solid #2a0505;
+            border-radius: 5px 15px 15px 5px;
+            color: var(--accent);
+            padding: 20px;
+            transform: rotateZ(5deg);
+        }
+
+        .journal-label {
+            border: 1px solid var(--accent);
+            padding: 10px;
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.8rem;
+        }
+
+        /* The Map */
+        .map {
+            bottom: 40px;
+            right: 60px;
+            width: 450px;
+            height: 300px;
+            background: #e3d5b8;
+            background-image: radial-gradient(circle, transparent 95%, rgba(0,0,0,0.1) 100%),
+                              repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px);
+            border: 2px solid #bda27e;
+            transform: rotateZ(-2deg);
+            padding: 10px;
+        }
+
+        .map-ink {
+            border: 1px dashed #8b5e3c;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b5e3c;
+            font-weight: bold;
+        }
+
+        /* The Mood Board (Polaroids) */
+        .mood-board {
+            top: 40px;
+            right: 80px;
+            width: 200px;
+            height: 200px;
+            background: #eee;
+            border: 10px solid white;
+            border-bottom: 30px solid white;
+            transform: rotateZ(15deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .mood-color {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom right, #ff7e5f, #feb47b);
+            opacity: 0.8;
+        }
+
+        /* Floating Stamp Icon */
+        .stamp {
+            position: absolute;
+            bottom: 20px;
+            left: 300px;
+            width: 60px;
+            height: 60px;
+            background: #7f1d1d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            transform: translateZ(40px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        h2 { font-size: 1.2rem; margin: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="desk">
+        <div class="object journal">
+            <h2>ECHO</h2>
+            <div class="journal-label">CHRONICLE OF ECHOES</div>
+            <p style="font-size: 0.6rem; margin-top: 100px; opacity: 0.7;">
+                Property of the Archivist.<br>
+                Do not leave unattended.
+            </p>
+        </div>
+
+        <div class="object map">
+            <div class="map-ink">
+                TERRA INCOGNITA
+            </div>
+        </div>
+
+        <div class="object mood-board">
+            <div class="mood-color"></div>
+            <span style="font-size: 0.7rem; color: #555; z-index: 1;">CURRENT VIBE</span>
+        </div>
+
+        <div class="object stamp">
+            E
+        </div>
+    </div>
+
+</body>
+</html>
