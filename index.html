@@ -1,261 +1,192 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echo Stamp | Travel Journal</title>
+    <title>John Wilbert Gamis | Digital Identity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            /* Light Mode Variables */
-            --bg: #f5f5f7;
-            --glass: rgba(255, 255, 255, 0.7);
-            --border: rgba(255, 255, 255, 0.3);
-            --text: #1d1d1f;
-            --accent: #0071e3;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        }
-
-        [data-theme="dark"] {
-            --bg: #000000;
-            --glass: rgba(28, 28, 30, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
-            --text: #f5f5f7;
-            --accent: #0a84ff;
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        }
-
-        * {
-            box-sizing: border-box;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         body {
             margin: 0;
-            padding: 0;
-            background: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%);
+            font-family: 'Inter', sans-serif;
         }
-
-        /* --- Header --- */
-        header {
-            height: 60px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: var(--glass);
+        #canvas-container {
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border);
+            height: 100%;
+            z-index: 1;
         }
-
-        .logo {
-            font-weight: 600;
-            font-size: 1.2rem;
-            letter-spacing: -0.5px;
-        }
-
-        .theme-toggle {
-            cursor: pointer;
-            background: var(--text);
-            color: var(--bg);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        /* --- Main Content --- */
-        main {
-            margin-top: 100px;
-            flex: 1;
-            padding: 20px;
-            max-width: 1200px;
-            width: 100%;
-            align-self: center;
-            perspective: 1000px;
-        }
-
-        .hero {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: -2px;
-        }
-
-        /* --- Bento Grid (3D Cards) --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            transform-style: preserve-3d;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 30px;
-            box-shadow: var(--shadow);
-            transform: translateZ(0);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .card:hover {
-            transform: translateZ(20px) rotateX(2deg) rotateY(-2deg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .card h3 {
-            margin: 0;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        /* --- Components --- */
-        .upload-area {
-            border: 2px dashed var(--border);
-            border-radius: 20px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .upload-area:hover {
-            background: rgba(0, 113, 227, 0.05);
-            border-color: var(--accent);
-        }
-
-        .mood-selector {
-            display: flex;
-            justify-content: space-around;
-            font-size: 2rem;
-        }
-
-        .mood-emoji {
-            cursor: pointer;
-            filter: grayscale(1);
-            transition: 0.2s;
-        }
-
-        .mood-emoji:hover, .mood-emoji.active {
-            filter: grayscale(0);
-            transform: scale(1.2);
-        }
-
-        .map-placeholder {
-            height: 200px;
-            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
-            border-radius: 18px;
-            overflow: hidden;
+        .ui-layer {
             position: relative;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .pointer-events-auto { pointer-events: auto; }
+        
+        .glass-text {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 50%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* --- Footer --- */
-        footer {
-            padding: 40px;
-            text-align: center;
-            font-size: 0.9rem;
-            opacity: 0.5;
+        .pulse-glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            animation: pulse 2s infinite;
         }
 
-        /* Simple Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
-
-        .liquid-object {
-            animation: float 6s ease-in-out infinite;
-        }
-
     </style>
 </head>
-<body data-theme="light">
+<body>
 
-    <header>
-        <div class="logo">Echo Stamp</div>
-        <button class="theme-toggle" onclick="toggleTheme()">Appearance</button>
-    </header>
+    <div id="canvas-container"></div>
 
-    <main>
-        <section class="hero">
-            <h1>Capture the Echo.</h1>
-            <p style="opacity: 0.6; font-size: 1.2rem;">Your travel legacy, preserved in glass.</p>
-        </section>
+    <main class="ui-layer min-h-screen flex flex-col items-center justify-center text-center px-4">
+        <header class="mb-8">
+            <h1 class="text-5xl md:text-7xl font-900 glass-text tracking-tighter mb-2">
+                JOHN WILBERT GAMIS
+            </h1>
+            <p class="text-blue-400 text-sm md:text-lg font-medium tracking-[0.3em] uppercase italic">
+                Mobile Specialist & API Architect
+            </p>
+        </header>
 
-        <div class="grid">
-            <div class="card liquid-object">
-                <h3>Visual Memories</h3>
-                <p style="font-size: 0.9rem; opacity: 0.7;">Upload your travel photos and 4K reels.</p>
-                <div class="upload-area">
-                    <span style="font-size: 2rem;">+</span>
-                    <p style="font-size: 0.8rem;">Drop Media Here</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>Current Mood</h3>
-                <p style="font-size: 0.9rem; opacity: 0.7;">How is the atmosphere today?</p>
-                <div class="mood-selector">
-                    <span class="mood-emoji" onclick="selectMood(this)">🏔️</span>
-                    <span class="mood-emoji" onclick="selectMood(this)">🌊</span>
-                    <span class="mood-emoji" onclick="selectMood(this)">🏙️</span>
-                    <span class="mood-emoji" onclick="selectMood(this)">🌅</span>
-                </div>
-                <input type="text" placeholder="Describe the vibe..." 
-                       style="background: rgba(0,0,0,0.05); border: none; padding: 12px; border-radius: 10px; color: inherit;">
-            </div>
-
-            <div class="card liquid-object" style="animation-delay: 1s;">
-                <h3>Echo Map</h3>
-                <div class="map-placeholder">
-                    <div style="position: absolute; top: 40%; left: 30%; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent);"></div>
-                    <div style="position: absolute; top: 60%; left: 70%; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; opacity: 0.5;"></div>
-                </div>
-                <p style="font-size: 0.8rem; text-align: center;">3 Active Echo Stamps in Tokyo</p>
-            </div>
+        <div class="flex flex-col gap-6 mt-[250px] md:mt-[300px]">
+            <button class="pointer-events-auto pulse-glow bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95">
+                View Projects
+            </button>
+            
+            <a href="https://github.com/WilWilbert123" target="_blank" class="pointer-events-auto flex items-center justify-center gap-2 text-slate-400 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <span class="text-xs tracking-widest uppercase">GitHub</span>
+            </a>
         </div>
     </main>
 
-    <footer>
-        &copy; 2026 Echo Stamp Travel. Designed for the adventurous.
-    </footer>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
 
-    <script>
-        // Toggle Dark/Light Mode
-        function toggleTheme() {
-            const body = document.body;
-            const current = body.getAttribute('data-theme');
-            const next = current === 'light' ? 'dark' : 'light';
-            body.setAttribute('data-theme', next);
+    <script type="module">
+        import * as THREE from 'three';
+
+        // --- Setup Scene ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // --- Glassmorphic Card ---
+        const geometry = new THREE.BoxGeometry(3.5, 2.2, 0.1);
+        const material = new THREE.MeshPhysicalMaterial({
+            transmission: 0.95,
+            thickness: 0.5,
+            roughness: 0.15,
+            ior: 1.5,
+            clearcoat: 1,
+            clearcoatRoughness: 0.1,
+            color: 0xffffff,
+            attenuationColor: 0xffffff,
+            attenuationDistance: 1,
+            transparent: true,
+        });
+        const card = new THREE.Mesh(geometry, material);
+        scene.add(card);
+
+        // --- Particle System (Starfield) ---
+        const particlesGeometry = new THREE.BufferGeometry();
+        const count = 1500;
+        const positions = new Float32Array(count * 3);
+        for(let i = 0; i < count * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 20;
+        }
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const particlesMaterial = new THREE.PointsMaterial({ size: 0.02, color: 0x4f46e5 });
+        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
+
+        // --- Lighting ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0x7c3aed, 20); // Violet
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        const blueLight = new THREE.PointLight(0x2563eb, 20); // Blue
+        blueLight.position.set(-5, -5, 2);
+        scene.add(blueLight);
+
+        camera.position.z = 5;
+
+        // --- Interactivity ---
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        // Device Orientation for Mobile
+        window.addEventListener('deviceorientation', (e) => {
+            if(e.gamma) {
+                mouseX = e.gamma / 45;
+                mouseY = e.beta / 45;
+            }
+        });
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Smooth Interpolation (Lerp)
+            targetX += (mouseX - targetX) * 0.05;
+            targetY += (mouseY - targetY) * 0.05;
+
+            // Apply Rotations
+            card.rotation.y = targetX * 0.5;
+            card.rotation.x = -targetY * 0.5;
+            
+            // Subtle floating motion
+            card.position.y = Math.sin(Date.now() * 0.001) * 0.1;
+
+            // Move lights relative to mouse
+            pointLight.position.x = targetX * 5;
+            pointLight.position.y = -targetY * 5;
+
+            // Rotate particles slowly
+            particles.rotation.y += 0.0005;
+
+            renderer.render(scene, camera);
         }
 
-        // Simple Mood Selection Interaction
-        function selectMood(el) {
-            document.querySelectorAll('.mood-emoji').forEach(e => e.classList.remove('active'));
-            el.classList.add('active');
-        }
+        animate();
     </script>
 </body>
 </html>
