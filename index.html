@@ -1,76 +1,84 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John Wilbert Gamis | Digital Identity</title>
+    <title>John Wilbert Gamis | Digital Architecture</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
+        :root { --bg: #030305; }
+        body { 
+            margin: 0; 
+            background-color: var(--bg); 
+            color: white; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow: hidden;
-            background: radial-gradient(circle at center, #1a1a2e 0%, #050505 100%);
-            font-family: 'Inter', sans-serif;
         }
-        #canvas-container {
+        #webgl-frame {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+            outline: none;
+            z-index: 0;
         }
-        .ui-layer {
+        .content-overlay {
             position: relative;
             z-index: 10;
             pointer-events: none;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4rem 2rem;
         }
-        .pointer-events-auto { pointer-events: auto; }
-        
-        .glass-text {
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 50%, #475569 100%);
+        .interactive { pointer-events: auto; }
+        .text-gradient {
+            background: linear-gradient(to bottom, #ffffff 30%, #475569 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .pulse-glow {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-            animation: pulse 2s infinite;
+        .cta-glow {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        .cta-glow:hover {
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body>
 
-    <div id="canvas-container"></div>
+    <canvas id="webgl-frame"></canvas>
 
-    <main class="ui-layer min-h-screen flex flex-col items-center justify-center text-center px-4">
-        <header class="mb-8">
-            <h1 class="text-5xl md:text-7xl font-900 glass-text tracking-tighter mb-2">
-                JOHN WILBERT GAMIS
+    <div class="content-overlay">
+        <nav class="flex justify-between items-center">
+            <div class="text-xs tracking-[0.5em] font-light opacity-50 uppercase">Portfolio // 2026</div>
+            <a href="https://github.com/WilWilbert123" target="_blank" class="interactive opacity-50 hover:opacity-100 transition-opacity">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+        </nav>
+
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter text-gradient leading-none mb-4">
+                JOHN WILBERT<br>GAMIS
             </h1>
-            <p class="text-blue-400 text-sm md:text-lg font-medium tracking-[0.3em] uppercase italic">
+            <p class="text-indigo-400 text-sm md:text-base font-bold tracking-[0.4em] uppercase">
                 Mobile Specialist & API Architect
             </p>
-        </header>
-
-        <div class="flex flex-col gap-6 mt-[250px] md:mt-[300px]">
-            <button class="pointer-events-auto pulse-glow bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95">
-                View Projects
-            </button>
-            
-            <a href="https://github.com/WilWilbert123" target="_blank" class="pointer-events-auto flex items-center justify-center gap-2 text-slate-400 hover:text-white transition-colors">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                <span class="text-xs tracking-widest uppercase">GitHub</span>
-            </a>
         </div>
-    </main>
+
+        <footer>
+            <button class="interactive cta-glow px-12 py-4 rounded-full text-sm font-bold tracking-widest uppercase text-white">
+                Initialize Interaction
+            </button>
+        </footer>
+    </div>
 
     <script type="importmap">
         {
@@ -84,106 +92,111 @@
     <script type="module">
         import * as THREE from 'three';
 
-        // --- Setup Scene ---
+        // --- Core Setup ---
+        const canvas = document.querySelector('#webgl-frame');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        renderer.toneMapping = THREE.ReinhardToneMapping;
 
-        // --- Glassmorphic Card ---
-        const geometry = new THREE.BoxGeometry(3.5, 2.2, 0.1);
-        const material = new THREE.MeshPhysicalMaterial({
-            transmission: 0.95,
-            thickness: 0.5,
-            roughness: 0.15,
-            ior: 1.5,
-            clearcoat: 1,
-            clearcoatRoughness: 0.1,
+        // --- 3D Monogram (Extruded 'J') ---
+        const shape = new THREE.Shape();
+        // Drawing a stylized J
+        shape.moveTo(0, 0);
+        shape.lineTo(1, 0);
+        shape.lineTo(1, -2.5);
+        shape.bezierCurveTo(1, -3.5, 0, -3.5, -0.5, -3);
+        shape.lineTo(-0.5, -2.5);
+        shape.bezierCurveTo(0, -3, 0.5, -3, 0.5, -2.5);
+        shape.lineTo(0.5, 0);
+
+        const extrudeSettings = { depth: 0.4, bevelEnabled: true, bevelThickness: 0.1, bevelSize: 0.1 };
+        const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+        geometry.center();
+
+        const glassMaterial = new THREE.MeshPhysicalMaterial({
             color: 0xffffff,
-            attenuationColor: 0xffffff,
-            attenuationDistance: 1,
+            metalness: 0.1,
+            roughness: 0.05,
+            transmission: 0.9,
+            thickness: 1.5,
+            ior: 1.4,
+            reflectivity: 0.5,
+            iridescence: 0.3,
+            iridescenceIOR: 1.5,
             transparent: true,
         });
-        const card = new THREE.Mesh(geometry, material);
-        scene.add(card);
 
-        // --- Particle System (Starfield) ---
-        const particlesGeometry = new THREE.BufferGeometry();
-        const count = 1500;
-        const positions = new Float32Array(count * 3);
-        for(let i = 0; i < count * 3; i++) {
-            positions[i] = (Math.random() - 0.5) * 20;
+        const monogram = new THREE.Mesh(geometry, glassMaterial);
+        scene.add(monogram);
+
+        // --- Environment & Particles ---
+        const starGeo = new THREE.BufferGeometry();
+        const starCoords = [];
+        for(let i=0; i<3000; i++) {
+            starCoords.push((Math.random()-0.5)*25, (Math.random()-0.5)*25, (Math.random()-0.5)*25);
         }
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        const particlesMaterial = new THREE.PointsMaterial({ size: 0.02, color: 0x4f46e5 });
-        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particles);
+        starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starCoords, 3));
+        const starMat = new THREE.PointsMaterial({ size: 0.015, color: 0x6366f1, transparent: true, opacity: 0.6 });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
 
-        // --- Lighting ---
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-        scene.add(ambientLight);
+        // --- Lighting (Cinematic) ---
+        const mainLight = new THREE.SpotLight(0x6366f1, 100);
+        mainLight.position.set(5, 5, 5);
+        scene.add(mainLight);
 
-        const pointLight = new THREE.PointLight(0x7c3aed, 20); // Violet
-        pointLight.position.set(5, 5, 5);
-        scene.add(pointLight);
+        const rimLight = new THREE.PointLight(0xff00ff, 50);
+        rimLight.position.set(-5, -2, -2);
+        scene.add(rimLight);
 
-        const blueLight = new THREE.PointLight(0x2563eb, 20); // Blue
-        blueLight.position.set(-5, -5, 2);
-        scene.add(blueLight);
+        const fillLight = new THREE.RectAreaLight(0x4338ca, 5, 10, 10);
+        fillLight.position.set(0, 0, -5);
+        scene.add(fillLight);
 
-        camera.position.z = 5;
+        camera.position.z = 8;
 
-        // --- Interactivity ---
-        let mouseX = 0;
-        let mouseY = 0;
-        let targetX = 0;
-        let targetY = 0;
+        // --- Interactions ---
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
 
         window.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            mouseX = (e.clientX / window.innerWidth - 0.5);
+            mouseY = (e.clientY / window.innerHeight - 0.5);
         });
 
-        // Device Orientation for Mobile
-        window.addEventListener('deviceorientation', (e) => {
-            if(e.gamma) {
-                mouseX = e.gamma / 45;
-                mouseY = e.beta / 45;
-            }
-        });
-
-        // Handle Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // --- Animation Loop ---
-        function animate() {
-            requestAnimationFrame(animate);
+        // --- Loop ---
+        const clock = new THREE.Clock();
 
-            // Smooth Interpolation (Lerp)
+        function animate() {
+            const elapsedTime = clock.getElapsedTime();
+            
             targetX += (mouseX - targetX) * 0.05;
             targetY += (mouseY - targetY) * 0.05;
 
-            // Apply Rotations
-            card.rotation.y = targetX * 0.5;
-            card.rotation.x = -targetY * 0.5;
+            // Animate Monogram
+            monogram.rotation.y = elapsedTime * 0.3 + (targetX * 1.5);
+            monogram.rotation.x = targetY * 1.5;
+            monogram.position.y = Math.sin(elapsedTime) * 0.15;
+
+            // Animate Stars
+            stars.rotation.y = elapsedTime * 0.02;
             
-            // Subtle floating motion
-            card.position.y = Math.sin(Date.now() * 0.001) * 0.1;
-
-            // Move lights relative to mouse
-            pointLight.position.x = targetX * 5;
-            pointLight.position.y = -targetY * 5;
-
-            // Rotate particles slowly
-            particles.rotation.y += 0.0005;
+            // Light following
+            mainLight.position.x = 5 + targetX * 10;
+            mainLight.position.y = 5 - targetY * 10;
 
             renderer.render(scene, camera);
+            requestAnimationFrame(animate);
         }
 
         animate();
