@@ -3,169 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echo Stamp 3D Journal</title>
+    <title>Echo Stamp | Travel Journal</title>
     <style>
         :root {
-            --wood: #3d2b1f;
-            --paper: #f4f1ea;
-            --accent: #d4af37;
+            /* Light Mode Variables */
+            --bg: #f5f5f7;
+            --glass: rgba(255, 255, 255, 0.7);
+            --border: rgba(255, 255, 255, 0.3);
+            --text: #1d1d1f;
+            --accent: #0071e3;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #000000;
+            --glass: rgba(28, 28, 30, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f5f5f7;
+            --accent: #0a84ff;
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
             margin: 0;
-            background: radial-gradient(circle, #2c3e50, #000);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Georgia', serif;
-            overflow: hidden;
-            perspective: 1200px; /* Essential for 3D */
-        }
-
-        /* The Desk Surface */
-        .desk {
-            position: relative;
-            width: 900px;
-            height: 600px;
-            background: var(--wood);
-            transform: rotateX(25deg) rotateZ(-5deg);
-            transform-style: preserve-3d;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
-            border-radius: 10px;
-            border: 15px solid #2a1d15;
-        }
-
-        /* Common 3D properties for objects */
-        .object {
-            position: absolute;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .object:hover {
-            transform: translateZ(20px);
-        }
-
-        /* The Journal (Echo Stamp) */
-        .journal {
-            top: 50px;
-            left: 50px;
-            width: 250px;
-            height: 350px;
-            background: #4a0e0e;
-            border-left: 10px solid #2a0505;
-            border-radius: 5px 15px 15px 5px;
-            color: var(--accent);
-            padding: 20px;
-            transform: rotateZ(5deg);
-        }
-
-        .journal-label {
-            border: 1px solid var(--accent);
-            padding: 10px;
-            text-align: center;
-            margin-top: 50px;
-            font-size: 0.8rem;
-        }
-
-        /* The Map */
-        .map {
-            bottom: 40px;
-            right: 60px;
-            width: 450px;
-            height: 300px;
-            background: #e3d5b8;
-            background-image: radial-gradient(circle, transparent 95%, rgba(0,0,0,0.1) 100%),
-                              repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px);
-            border: 2px solid #bda27e;
-            transform: rotateZ(-2deg);
-            padding: 10px;
-        }
-
-        .map-ink {
-            border: 1px dashed #8b5e3c;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8b5e3c;
-            font-weight: bold;
-        }
-
-        /* The Mood Board (Polaroids) */
-        .mood-board {
-            top: 40px;
-            right: 80px;
-            width: 200px;
-            height: 200px;
-            background: #eee;
-            border: 10px solid white;
-            border-bottom: 30px solid white;
-            transform: rotateZ(15deg);
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .mood-color {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom right, #ff7e5f, #feb47b);
-            opacity: 0.8;
-        }
-
-        /* Floating Stamp Icon */
-        .stamp {
-            position: absolute;
-            bottom: 20px;
-            left: 300px;
-            width: 60px;
+        /* --- Header --- */
+        header {
             height: 60px;
-            background: #7f1d1d;
-            border-radius: 50%;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-            transform: translateZ(40px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            padding: 0 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: var(--glass);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
         }
 
-        h2 { font-size: 1.2rem; margin: 0; }
+        .logo {
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* --- Main Content --- */
+        main {
+            margin-top: 100px;
+            flex: 1;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            align-self: center;
+            perspective: 1000px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        /* --- Bento Grid (3D Cards) --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            transform-style: preserve-3d;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transform: translateZ(0);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card:hover {
+            transform: translateZ(20px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        /* --- Components --- */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 20px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            background: rgba(0, 113, 227, 0.05);
+            border-color: var(--accent);
+        }
+
+        .mood-selector {
+            display: flex;
+            justify-content: space-around;
+            font-size: 2rem;
+        }
+
+        .mood-emoji {
+            cursor: pointer;
+            filter: grayscale(1);
+            transition: 0.2s;
+        }
+
+        .mood-emoji:hover, .mood-emoji.active {
+            filter: grayscale(0);
+            transform: scale(1.2);
+        }
+
+        .map-placeholder {
+            height: 200px;
+            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.5;
+        }
+
+        /* Simple Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .liquid-object {
+            animation: float 6s ease-in-out infinite;
+        }
+
     </style>
 </head>
-<body>
+<body data-theme="light">
 
-    <div class="desk">
-        <div class="object journal">
-            <h2>ECHO</h2>
-            <div class="journal-label">CHRONICLE OF ECHOES</div>
-            <p style="font-size: 0.6rem; margin-top: 100px; opacity: 0.7;">
-                Property of the Archivist.<br>
-                Do not leave unattended.
-            </p>
-        </div>
+    <header>
+        <div class="logo">Echo Stamp</div>
+        <button class="theme-toggle" onclick="toggleTheme()">Appearance</button>
+    </header>
 
-        <div class="object map">
-            <div class="map-ink">
-                TERRA INCOGNITA
+    <main>
+        <section class="hero">
+            <h1>Capture the Echo.</h1>
+            <p style="opacity: 0.6; font-size: 1.2rem;">Your travel legacy, preserved in glass.</p>
+        </section>
+
+        <div class="grid">
+            <div class="card liquid-object">
+                <h3>Visual Memories</h3>
+                <p style="font-size: 0.9rem; opacity: 0.7;">Upload your travel photos and 4K reels.</p>
+                <div class="upload-area">
+                    <span style="font-size: 2rem;">+</span>
+                    <p style="font-size: 0.8rem;">Drop Media Here</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Current Mood</h3>
+                <p style="font-size: 0.9rem; opacity: 0.7;">How is the atmosphere today?</p>
+                <div class="mood-selector">
+                    <span class="mood-emoji" onclick="selectMood(this)">🏔️</span>
+                    <span class="mood-emoji" onclick="selectMood(this)">🌊</span>
+                    <span class="mood-emoji" onclick="selectMood(this)">🏙️</span>
+                    <span class="mood-emoji" onclick="selectMood(this)">🌅</span>
+                </div>
+                <input type="text" placeholder="Describe the vibe..." 
+                       style="background: rgba(0,0,0,0.05); border: none; padding: 12px; border-radius: 10px; color: inherit;">
+            </div>
+
+            <div class="card liquid-object" style="animation-delay: 1s;">
+                <h3>Echo Map</h3>
+                <div class="map-placeholder">
+                    <div style="position: absolute; top: 40%; left: 30%; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent);"></div>
+                    <div style="position: absolute; top: 60%; left: 70%; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; opacity: 0.5;"></div>
+                </div>
+                <p style="font-size: 0.8rem; text-align: center;">3 Active Echo Stamps in Tokyo</p>
             </div>
         </div>
+    </main>
 
-        <div class="object mood-board">
-            <div class="mood-color"></div>
-            <span style="font-size: 0.7rem; color: #555; z-index: 1;">CURRENT VIBE</span>
-        </div>
+    <footer>
+        &copy; 2026 Echo Stamp Travel. Designed for the adventurous.
+    </footer>
 
-        <div class="object stamp">
-            E
-        </div>
-    </div>
+    <script>
+        // Toggle Dark/Light Mode
+        function toggleTheme() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            const next = current === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', next);
+        }
 
+        // Simple Mood Selection Interaction
+        function selectMood(el) {
+            document.querySelectorAll('.mood-emoji').forEach(e => e.classList.remove('active'));
+            el.classList.add('active');
+        }
+    </script>
 </body>
 </html>
